@@ -4,14 +4,12 @@ import com.own.prac.saha.entity.ImgContent;
 import com.own.prac.saha.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 public class ImageContentController {
@@ -22,6 +20,11 @@ public class ImageContentController {
     @GetMapping("/image")
     public Iterable<ImgContent> getAllImages() {
         return imageService.getAllImages();
+    }
+
+    @GetMapping("/image/type")
+    public List<ImgContent> getAllByType(@RequestParam String type) {
+        return imageService.getAllByType(type);
     }
 
     @PostMapping("/image")
