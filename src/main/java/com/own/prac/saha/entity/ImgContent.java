@@ -18,6 +18,10 @@ public class ImgContent {
     @Column(name = "TYPE")
     private String type;
 
+    @Lob
+    @Column(name = "PARAGRAPH")
+    private String paragraph;
+
     public ImgContent() {
     }
 
@@ -51,5 +55,13 @@ public class ImgContent {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getParagraph() {
+        return paragraph;
+    }
+
+    public void setParagraph(String paragraph) {
+        this.paragraph = paragraph;
     }
 }
