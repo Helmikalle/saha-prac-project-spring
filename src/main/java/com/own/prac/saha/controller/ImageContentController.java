@@ -39,4 +39,9 @@ public class ImageContentController {
                 .toUri();
         return ResponseEntity.created(location).build();
     }
+
+    @DeleteMapping("/image/{id}")
+    public void deleteImage(@PathVariable("id") long id) {
+        imageService.deleteImage(id);
+    }
 }

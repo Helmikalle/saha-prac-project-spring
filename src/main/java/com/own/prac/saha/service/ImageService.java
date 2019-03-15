@@ -11,7 +11,6 @@ import java.util.List;
 @Service
 public class ImageService {
 
-
     @Autowired
     ImgRepository imgRepository;
 
@@ -27,5 +26,7 @@ public class ImageService {
         imgRepository.save(content);
     }
 
-
+    public void deleteImage(Long id) {
+        imgRepository.deleteById(id);
+    }
 }
