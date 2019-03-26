@@ -12,14 +12,11 @@ import java.util.List;
 public class ImageService {
 
     @Autowired
+    private
     ImgRepository imgRepository;
 
     public Iterable<ImgContent> getAllImages() {
         return imgRepository.findAll();
-    }
-
-    public List<ImgContent> getAllByType(String type) {
-        return imgRepository.getAllByType(type);
     }
 
     public void saveImage(ImgContent content) {

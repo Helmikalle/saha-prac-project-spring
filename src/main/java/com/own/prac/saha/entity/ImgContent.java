@@ -1,9 +1,12 @@
 package com.own.prac.saha.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class ImgContent {
+public class ImgContent implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -15,14 +18,19 @@ public class ImgContent {
     @Column(name="SAHA_PHOTO_URL")
     private String sahaPhotoURL;
 
-    @Column(name = "TYPE")
-    private String type;
+    @ManyToOne
+    @JoinColumn(name = "PROPERTY_ID")
+    private PropertyContent propertyContent;
 
-    @Lob
-    @Column(name = "PARAGRAPH")
-    private String paragraph;
-
+    @JsonCreator
     public ImgContent() {
+    }
+
+    public ImgContent(long id, String name, String sahaPhotoURL, PropertyContent propertyContent) {
+        this.id = id;
+        this.name = name;
+        this.sahaPhotoURL = sahaPhotoURL;
+        this.propertyContent = propertyContent;
     }
 
     public long getId() {
@@ -49,19 +57,11 @@ public class ImgContent {
         this.sahaPhotoURL = sahaPhotoURL;
     }
 
-    public String getType() {
-        return type;
+    public PropertyContent getPropertyContent() {
+        return propertyContent;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getParagraph() {
-        return paragraph;
-    }
-
-    public void setParagraph(String paragraph) {
-        this.paragraph = paragraph;
+    public void setPropertyContent(PropertyContent propertyContent) {
+        this.propertyContent = propertyContent;
     }
 }

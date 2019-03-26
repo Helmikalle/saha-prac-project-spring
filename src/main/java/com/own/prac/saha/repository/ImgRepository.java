@@ -8,6 +8,4 @@ import java.util.List;
 
 @Repository
 public interface ImgRepository extends JpaRepository<ImgContent, Long> {
-
-    List<ImgContent>getAllByType(String type);
 }

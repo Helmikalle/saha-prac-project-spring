@@ -1,9 +1,12 @@
 package com.own.prac.saha.controller;
 
 import com.own.prac.saha.entity.ImgContent;
+import com.own.prac.saha.entity.PropertyContent;
 import com.own.prac.saha.service.ImageService;
+import com.own.prac.saha.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -17,14 +20,31 @@ public class ImageContentController {
     @Autowired
     ImageService imageService;
 
+    @Autowired
+    PropertyService propertyService;
+
     @GetMapping("/image")
     public Iterable<ImgContent> getAllImages() {
         return imageService.getAllImages();
     }
 
-    @GetMapping("/image/type")
-    public List<ImgContent> getAllByType(@RequestParam String type) {
-        return imageService.getAllByType(type);
+    @GetMapping("/sauna")
+    @Transactional
+    public PropertyContent getSaunaContent() {
+        return propertyService.getAllSaunaContent();
+    }
+
+    @PostMapping("/sauna")
+    public ResponseEntity<PropertyContent> newSaunaProperty(@Valid @RequestBody PropertyContent content) {
+        propertyService.saveImage(content);
+        URI location = UriComponentsBuilder.newInstance()
+                .scheme("http")
+                .host("localhost")
+                .port(8081)
+                .path("/sauna/{id}")
+                .buildAndExpand(content.getId())
+                .toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @PostMapping("/image")
