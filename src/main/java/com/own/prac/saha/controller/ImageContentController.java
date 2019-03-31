@@ -2,9 +2,14 @@ package com.own.prac.saha.controller;
 
 import com.own.prac.saha.entity.ImgContent;
 import com.own.prac.saha.entity.PropertyContent;
+import com.own.prac.saha.exception.ResourceNotFoundException;
+import com.own.prac.saha.repository.ImgRepository;
+import com.own.prac.saha.repository.PropertyRepository;
 import com.own.prac.saha.service.ImageService;
 import com.own.prac.saha.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -18,50 +23,30 @@ import java.util.List;
 public class ImageContentController {
 
     @Autowired
+    private
     ImageService imageService;
 
-    @Autowired
-    PropertyService propertyService;
-
-    @GetMapping("/image")
-    public Iterable<ImgContent> getAllImages() {
-        return imageService.getAllImages();
+    @GetMapping("/property/{id}/images")
+    public Page<ImgContent> getAllImagesByPropertyId(@PathVariable (value = "id") String id,
+                                                     Pageable pageable) {
+        return imageService.getAllImages(id, pageable);
     }
 
-    @GetMapping("/sauna")
-    @Transactional
-    public PropertyContent getSaunaContent() {
-        return propertyService.getAllSaunaContent();
+    @PutMapping("property/{propertyId}/image/{imageId}")
+    public ImgContent updateUser(@PathVariable(value = "propertyId") String propertyId,
+                                                 @PathVariable(value = "imageId") Long imageId,
+                                                 @Valid @RequestBody ImgContent imageDetails) {
+        return imageService.updateImage(propertyId, imageId, imageDetails);
     }
 
-    @PostMapping("/sauna")
-    public ResponseEntity<PropertyContent> newSaunaProperty(@Valid @RequestBody PropertyContent content) {
-        propertyService.saveImage(content);
-        URI location = UriComponentsBuilder.newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(8081)
-                .path("/sauna/{id}")
-                .buildAndExpand(content.getId())
-                .toUri();
-        return ResponseEntity.created(location).build();
+    @PostMapping("/property/{id}/images")
+    public ImgContent newImage(@PathVariable (value = "id") String id,
+                                               @Valid @RequestBody ImgContent content) {
+        return imageService.addNewImage(id, content);
     }
 
-    @PostMapping("/image")
-    public ResponseEntity<ImgContent> newImage(@Valid @RequestBody ImgContent content) {
-        imageService.saveImage(content);
-        URI location = UriComponentsBuilder.newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(8081)
-                .path("/image/{id}")
-                .buildAndExpand(content.getId())
-                .toUri();
-        return ResponseEntity.created(location).build();
-    }
-
-    @DeleteMapping("/image/{id}")
-    public void deleteImage(@PathVariable("id") long id) {
-        imageService.deleteImage(id);
+    @DeleteMapping("property/{propertyId}/image/{imageId}")
+    public ResponseEntity<?> deleteImage(@PathVariable(name = "propertyId") String propertyId, @PathVariable(name = "id") long imageId) {
+        return imageService.deleteImage(propertyId, imageId);
     }
 }

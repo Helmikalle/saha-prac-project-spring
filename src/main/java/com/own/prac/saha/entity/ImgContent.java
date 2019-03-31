@@ -1,6 +1,8 @@
 package com.own.prac.saha.entity;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -8,29 +10,22 @@ import java.io.Serializable;
 @Entity
 public class ImgContent implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "NAME")
     private String name;
 
-    @Lob
-    @Column(name="SAHA_PHOTO_URL")
+    @Column(name="SAHA_PHOTO_URL", columnDefinition = "text")
     private String sahaPhotoURL;
 
-    @ManyToOne
-    @JoinColumn(name = "PROPERTY_ID")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "property_content_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private PropertyContent propertyContent;
 
-    @JsonCreator
     public ImgContent() {
-    }
-
-    public ImgContent(long id, String name, String sahaPhotoURL, PropertyContent propertyContent) {
-        this.id = id;
-        this.name = name;
-        this.sahaPhotoURL = sahaPhotoURL;
-        this.propertyContent = propertyContent;
     }
 
     public long getId() {

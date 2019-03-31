@@ -10,8 +10,7 @@ public class TextContent implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Lob
-    @Column(name = "PARAGRAPH")
+    @Column(name = "PARAGRAPH", columnDefinition = "text")
     private String paragraph;
 
     @Column(name = "TYPE")
