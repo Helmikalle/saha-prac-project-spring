@@ -26,14 +26,6 @@ public class TextContentController {
 
     @PostMapping("/text")
     public ResponseEntity<TextContent> newText(@Valid @RequestBody TextContent content) {
-        textService.saveText(content);
-        URI location = UriComponentsBuilder.newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(8081)
-                .path("/text/{id}")
-                .buildAndExpand(content.getId())
-                .toUri();
-        return ResponseEntity.created(location).build();
+        return textService.saveText(content);
     }
 }
