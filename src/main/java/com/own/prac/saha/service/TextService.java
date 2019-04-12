@@ -13,6 +13,7 @@ import java.net.URI;
 public class TextService {
 
     @Autowired
+    private
     TextRepository textRepository;
 
     public Iterable<TextContent> getAllTexts() {
