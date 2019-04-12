@@ -1,6 +1,5 @@
 package com.own.prac.saha.entity;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,19 +17,10 @@ public class ImgContent implements Serializable {
     @Column(name="SAHA_PHOTO_URL")
     private String sahaPhotoURL;
 
-    @ManyToOne
-    @JoinColumn(name = "PROPERTY_ID")
-    private PropertyContent propertyContent;
+    @Column(name = "property_id")
+    private String propertyId;
 
-    @JsonCreator
     public ImgContent() {
-    }
-
-    public ImgContent(long id, String name, String sahaPhotoURL, PropertyContent propertyContent) {
-        this.id = id;
-        this.name = name;
-        this.sahaPhotoURL = sahaPhotoURL;
-        this.propertyContent = propertyContent;
     }
 
     public long getId() {
@@ -57,11 +47,11 @@ public class ImgContent implements Serializable {
         this.sahaPhotoURL = sahaPhotoURL;
     }
 
-    public PropertyContent getPropertyContent() {
-        return propertyContent;
+    public String getPropertyId() {
+        return propertyId;
     }
 
-    public void setPropertyContent(PropertyContent propertyContent) {
-        this.propertyContent = propertyContent;
+    public void setPropertyId(String propertyId) {
+        this.propertyId = propertyId;
     }
 }

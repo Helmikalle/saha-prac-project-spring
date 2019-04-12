@@ -4,9 +4,9 @@ import com.own.prac.saha.entity.PropertyContent;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PropertyRepository extends CrudRepository<PropertyContent, Long> {
-     PropertyContent findOneByPropertyId(String propertyId);
+     Optional<PropertyContent> findOneByPropertyId(String propertyId);
 }

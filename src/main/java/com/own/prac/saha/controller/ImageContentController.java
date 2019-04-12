@@ -12,56 +12,72 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ImageContentController {
 
     @Autowired
+    private
     ImageService imageService;
 
     @Autowired
+    private
     PropertyService propertyService;
 
-    @GetMapping("/image")
-    public Iterable<ImgContent> getAllImages() {
-        return imageService.getAllImages();
-    }
+    /**
+     *
+     * @param propertyId
+     * @return all images and data for that property
+     */
 
-    @GetMapping("/sauna")
+    @GetMapping("/property/{propertyId}")
     @Transactional
-    public PropertyContent getSaunaContent() {
-        return propertyService.getAllSaunaContent();
+    public Optional<PropertyContent> getPropertyContent(@PathVariable(name = "propertyId") String propertyId) {
+        return propertyService.getAllPropertyContent(propertyId);
     }
 
-    @PostMapping("/sauna")
-    public ResponseEntity<PropertyContent> newSaunaProperty(@Valid @RequestBody PropertyContent content) {
-        propertyService.saveImage(content);
-        URI location = UriComponentsBuilder.newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(8081)
-                .path("/sauna/{id}")
-                .buildAndExpand(content.getId())
-                .toUri();
-        return ResponseEntity.created(location).build();
+    /**
+     *
+     * @param content
+     * @return 201 created
+     */
+
+    @PostMapping("/property")
+    public ResponseEntity<PropertyContent> newPropertyContent(@Valid @RequestBody PropertyContent content) {
+        return propertyService.createNewPropertyContent(content);
     }
+
+    /**
+     *
+      * @param propertyId
+     */
+
+    @DeleteMapping("/properties/{propertyId}")
+    public void deleteAllForProperty(@PathVariable(name = "propertyId") String propertyId) throws Exception {
+        propertyService.deleteProperty(propertyId);
+    }
+
+    /**
+     *
+     * @param content
+     * @return  201 created
+     */
 
     @PostMapping("/image")
     public ResponseEntity<ImgContent> newImage(@Valid @RequestBody ImgContent content) {
-        imageService.saveImage(content);
-        URI location = UriComponentsBuilder.newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(8081)
-                .path("/image/{id}")
-                .buildAndExpand(content.getId())
-                .toUri();
-        return ResponseEntity.created(location).build();
+        return imageService.addNewImage(content);
     }
+
+    /**
+     *
+     * @param id
+     * Delete one image
+     */
 
     @DeleteMapping("/image/{id}")
     public void deleteImage(@PathVariable("id") long id) {
         imageService.deleteImage(id);
     }
+
 }

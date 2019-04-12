@@ -1,10 +1,8 @@
 package com.own.prac.saha.entity;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 public class PropertyContent implements Serializable {
@@ -12,23 +10,17 @@ public class PropertyContent implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Column(name = "property_id")
     private String propertyId;
 
     @Lob
     private String paragraph;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "propertyContent")
-    private Set<ImgContent> imageList;
+    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "property_id", referencedColumnName = "property_id")
+    private List<ImgContent> imageList;
 
-    @JsonCreator
     public PropertyContent() {
-    }
-
-    public PropertyContent(long id, String propertyId, String paragraph, Set<ImgContent> imageList) {
-        this.id = id;
-        this.propertyId = propertyId;
-        this.paragraph = paragraph;
-        this.imageList = imageList;
     }
 
     public long getId() {
@@ -55,11 +47,11 @@ public class PropertyContent implements Serializable {
         this.paragraph = paragraph;
     }
 
-    public Set<ImgContent> getImageList() {
+    public List<ImgContent> getImageList() {
         return imageList;
     }
 
-    public void setImageList(Set<ImgContent> imageList) {
+    public void setImageList(List<ImgContent> imageList) {
         this.imageList = imageList;
     }
 }
