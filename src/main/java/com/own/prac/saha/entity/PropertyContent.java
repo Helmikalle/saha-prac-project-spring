@@ -4,7 +4,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-@Entity
+@Entity(name = "property")
+@Table(name = "property")
 public class PropertyContent implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

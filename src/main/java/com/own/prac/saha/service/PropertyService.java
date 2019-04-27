@@ -38,4 +38,8 @@ public class PropertyService {
                 .toUri();
         return ResponseEntity.created(location).build();
     }
+
+    public Iterable<PropertyContent> getAllProperties() {
+        return propertyRepository.findAll();
+    }
 }

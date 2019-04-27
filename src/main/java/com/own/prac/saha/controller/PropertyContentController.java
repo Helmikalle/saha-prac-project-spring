@@ -25,6 +25,15 @@ public class PropertyContentController {
 
     /**
      *
+     * @return all properties
+     */
+    @GetMapping("/property")
+    public Iterable<PropertyContent> getAllProperties() {
+        return propertyService.getAllProperties();
+    }
+
+    /**
+     *
      * @param propertyId
      * @return all images and data for that property
      */
