@@ -116,6 +116,10 @@ Priority scale: P5 is most important, P1 is lowest priority.
 - P3 - Introduce DTOs or response models before larger API changes so entity persistence shape is not the long-term public API contract.
 - P3 - Review JPA relationship between `PropertyContent` and `ImgContent`; consider a clearer foreign-key relationship or documented business-key join constraints for `propertyId`.
 
+### Tooling Todo
+
+- P4 - Create a security reviewer/enhancer skill or agent for Java/Spring, React, dependency, configuration, secret-management, and deployment-readiness reviews.
+
 ### Frontend Todo
 
 - P3 - Extract duplicated property slider logic from `Sauna` and `Venevaja`.
@@ -234,3 +238,5 @@ Priority scale: P5 is most important, P1 is lowest priority.
 - Discussed whether controllers should depend on service interfaces. Current decision: do not introduce service interfaces yet; constructor injection is the better next cleanup, and interfaces can wait until there are multiple implementations or a real architectural boundary.
 - Ended the session with the highest-priority remaining backend task as P4 constructor injection cleanup.
 - Before pushing, replaced the PostgreSQL profile's hardcoded password with `SAHA_POSTGRES_PASSWORD` and documented the PostgreSQL environment variables in `README.md`.
+- Added an agent rule to never commit secrets in plain-text project files.
+- Added a P4 tooling ticket to create a security reviewer/enhancer skill or agent.

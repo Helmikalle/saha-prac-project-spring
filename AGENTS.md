@@ -65,6 +65,7 @@ This file contains a growing ruleset that improves over time. At session start, 
 
 <!-- New rules are appended below this line. Do not edit above this section. -->
 6. [PROCESS] Always notify the user before starting the last remaining Todo backlog ticket - because the user wants a small review and next-step planning session before the backlog is exhausted.
+7. [SECURITY] Never commit secrets, passwords, tokens, API keys, or private connection strings in plain-text project files - because pushed git history can expose credentials even after later cleanup.
 7. [PROCESS] Always prioritize improving tests after the application is confirmed to run and baseline tests pass - because the user wants test coverage updated before deeper feature or model work.
 8. [PROCESS] Always treat this project as a mentoring project: explain meaningful Java, Spring Boot, React, and UI corrections briefly after making them - because the user wants to learn the better practice, not just receive changed code.
 9. [PROCESS] Always keep backend and frontend tasks in separate backlog sections - because the user wants UI work and Java/Spring work tracked independently.
