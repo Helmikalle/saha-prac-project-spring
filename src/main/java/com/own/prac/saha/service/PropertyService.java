@@ -22,9 +22,14 @@ public class PropertyService {
         return propertyRepository.findOneByPropertyId(propertyId);
     }
 
-    public void deleteProperty(String propertyId) throws Exception {
+    public boolean deleteProperty(String propertyId) {
         Optional<PropertyContent> content = propertyRepository.findOneByPropertyId(propertyId);
-        propertyRepository.delete(content.orElseThrow(Exception::new));
+        if (!content.isPresent()) {
+            return false;
+        }
+
+        propertyRepository.delete(content.get());
+        return true;
     }
 
     public ResponseEntity<PropertyContent> createNewPropertyContent(PropertyContent content) {

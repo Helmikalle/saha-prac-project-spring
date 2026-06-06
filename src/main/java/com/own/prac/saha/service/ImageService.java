@@ -21,8 +21,13 @@ public class ImageService {
         return imgRepository.findAll();
     }
 
-    public void deleteImage(Long id) {
+    public boolean deleteImage(Long id) {
+        if (!imgRepository.existsById(id)) {
+            return false;
+        }
+
         imgRepository.deleteById(id);
+        return true;
     }
 
     public ResponseEntity<ImgContent> addNewImage(ImgContent content) {

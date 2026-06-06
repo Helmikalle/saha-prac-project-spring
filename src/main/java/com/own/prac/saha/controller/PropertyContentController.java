@@ -40,8 +40,11 @@ public class PropertyContentController {
 
     @GetMapping("/property/{propertyId}")
     @Transactional
-    public Optional<PropertyContent> getPropertyContent(@PathVariable(name = "propertyId") String propertyId) {
-        return propertyService.getAllPropertyContent(propertyId);
+    public ResponseEntity<PropertyContent> getPropertyContent(@PathVariable(name = "propertyId") String propertyId) {
+        Optional<PropertyContent> propertyContent = propertyService.getAllPropertyContent(propertyId);
+        return propertyContent
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     /**
@@ -61,8 +64,12 @@ public class PropertyContentController {
      */
 
     @DeleteMapping("/property/{propertyId}")
-    public void deleteAllForProperty(@PathVariable(name = "propertyId") String propertyId) throws Exception {
-        propertyService.deleteProperty(propertyId);
+    public ResponseEntity<Void> deleteAllForProperty(@PathVariable(name = "propertyId") String propertyId) {
+        if (!propertyService.deleteProperty(propertyId)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.noContent().build();
     }
 
     /**
@@ -83,8 +90,12 @@ public class PropertyContentController {
      */
 
     @DeleteMapping("/image/{id}")
-    public void deleteImage(@PathVariable("id") long id) {
-        imageService.deleteImage(id);
+    public ResponseEntity<Void> deleteImage(@PathVariable("id") long id) {
+        if (!imageService.deleteImage(id)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.noContent().build();
     }
 
 }
